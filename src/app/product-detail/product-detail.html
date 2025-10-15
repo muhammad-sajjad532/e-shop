@@ -1,0 +1,7 @@
+@if(product()){
+    <p>You Selected:
+        <strong>{{product()!.title}}</strong>
+    </p>
+
+    <button (click)="addToCart()">Add to Cart</button>
+}
