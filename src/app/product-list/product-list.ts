@@ -1,59 +1,26 @@
-import { Component, AfterViewInit, viewChild } from '@angular/core';
+import { Component, OnInit, inject} from '@angular/core';
 import { Product } from '../product';
 import { ProductDetail } from '../product-detail/product-detail';
 import { SortPipe } from '../pipes/sort-pipe';
+import { Products } from '../services/products';
+import { Favorites } from '../favorites/favorites';
 
 @Component({
   selector: 'app-product-list',
-  imports: [ProductDetail, SortPipe],
+  imports: [ProductDetail, SortPipe, Favorites],
   templateUrl: './product-list.html',
-  styleUrl: './product-list.css'
+  styleUrl: './product-list.css',
+  providers: [Products]
 })
-export class ProductList {
-  
-  products : Product[] = [
-    { 
-      id: 1, 
-      title: 'Keyboard',
-      price: 100,
-      categories: {
-        1: 'Computing',
-        2: 'Peripherals'
-      }
-    },
+export class ProductList implements OnInit{
 
-    { 
-      id: 2, 
-      title: 'Microphone',
-      price: 35,
-      categories: {
-        3: 'Multimedia'
-      }
-    },
+   products : Product[] = [];
+   selectedProduct : Product | undefined;
 
-    { 
-      id: 3, 
-      title: 'Web Camera',
-      price: 79,
-      categories: {
-        1: 'Computing',
-        3: 'Multimedia'
-      }
-    },
-
-    { 
-      id: 4, 
-      title: 'Tablet',
-      price: 500,
-      categories: {
-        4: 'Entertainment'
-      }
-    },
-  ];
-
-  selectedProduct : Product | undefined;
-
-  productDetail = viewChild(ProductDetail)
+  private productService = inject(Products);
+  ngOnInit(){
+    this.products = this.productService.getProducts();
+  }
 
   onAdded(product : Product){
     alert(`${product.title} added to the cart!`);

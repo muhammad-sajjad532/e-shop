@@ -1,0 +1,13 @@
+@switch (product?.title) {
+ @case ('Keyboard') {
+    <span class="emoji" title="Keyboard">⌨️</span>
+  }
+
+ @case ('Microphone') { 
+    <span class="emoji" title="Microphone">🎤</span>
+ }
+ @default { 
+    <span class="emoji" title="Product">🛒</span>
+ }
+}
+{{product?.title}}
