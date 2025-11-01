@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../product';
 import { Products } from '../services/products';
-import { CommonModule } from '@angular/common';
+import { FavoritesService } from '../services/favorites-service';
 
 @Component({
   selector: 'app-favorites',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './favorites.html',
-  styleUrl: './favorites.css'
+  styleUrl: './favorites.css',
+  providers: [
+    {provide: Products, useClass: FavoritesService}
+  ]
 })
 export class Favorites implements OnInit{
   products : Product[] = []
