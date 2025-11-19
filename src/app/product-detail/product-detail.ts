@@ -1,27 +1,26 @@
-import { Component, input, output} from '@angular/core';
-import { Product } from '../product';
 import { CommonModule } from '@angular/common';
+import { Component, input, output, OnChanges } from '@angular/core';
+import { Product } from '../product';
+import { Observable } from 'rxjs';
+import { Products } from '../services/products';
 
 @Component({
   selector: 'app-product-detail',
   imports: [CommonModule],
   templateUrl: './product-detail.html',
-  styleUrl: './product-detail.css',
-  
+  styleUrl: './product-detail.css'
 })
-export class ProductDetail{
+export class ProductDetail implements OnChanges {
+  id = input<number>();
+  product$: Observable<Product> | undefined;
+  added = output();
 
-  
-  product = input<Product>();
-  added = output<Product>();
-
-  addToCart() {
-    this.added.emit(this.product()!);
+  constructor(private products: Products) { }
+  ngOnChanges() {
+    this.product$ = this.products.getProduct(this.id()!);
   }
 
-
-  get productTitle() {
-  return this.product()!.title;
- } 
-
+  addToCart() {
+    this.added.emit();
+  }
 }
