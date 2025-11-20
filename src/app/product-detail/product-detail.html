@@ -4,8 +4,14 @@
     <strong>{{product.title}}</strong>
   </p>
   <p>{{product.price | currency:'EUR'}}</p>
+  <input placeholder="New Price" #newPrice type="number"/>
+  <button class="secondary" (click)="changePrice(product, newPrice.value)">Change</button>
   <div class="pill-group"> 
       <p class="pill">{{ product.category }}</p>
   </div>  
+  <div>
   <button (click)="addToCart()">Add to cart</button>
+  <button class="delete" (click)="remove(product)">Delete</button>
+  </div>
+  
 }

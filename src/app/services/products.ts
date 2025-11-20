@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable, of, map } from 'rxjs';
+import { Observable, of, map, tap } from 'rxjs';
 import { Product } from '../product';
 import { APP_SETTINGS } from '../app.settings';
 
@@ -37,5 +37,25 @@ export class Products {
    this.products.push(product);
    return product;
     }));
-  }  
+  } 
+  
+  //patch method
+  updateProduct(id: number, price : number): Observable<Product> {
+    return this.http.patch<Product>(`${this.productsUrl}/${id}`, { price }).pipe(
+      map(product => {
+        const index = this.products.findIndex(p => p.id === id);
+        this.products[index].price = price;
+        return product;
+      })
+    );
+  }
+
+  deleteProduct(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.productsUrl}/${id}`).pipe(
+      tap(() => {
+        const index = this.products.findIndex(p => p.id === id);
+        this.products.splice(index, 1);
+      })
+    );
+  }
 }
